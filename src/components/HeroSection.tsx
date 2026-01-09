@@ -27,22 +27,29 @@ const HeroSection: React.FC = () => {
     const [sparkles, setSparkles] = useState<{ id: number, x: number, y: number }[]>([]);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            const target = document.getElementById('info-section');
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, 3000);
-        return () => clearTimeout(timer);
+        // Flip text after 1 second
+        const textTimer = setTimeout(() => {
+            setIsAltText(true);
+        }, 1000);
+
+        // Scroll down after text flip (2.5 seconds total delay)
+        const scrollTimer = setTimeout(() => {
+            handleScrollDown(5000); // 5 seconds duration (very slow)
+        }, 2500);
+
+        return () => {
+            clearTimeout(textTimer);
+            clearTimeout(scrollTimer);
+        };
     }, []);
 
-    const handleScrollDown = () => {
+    const handleScrollDown = (customDuration?: number) => {
         const target = document.getElementById('info-section');
         if (target) {
             const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
             const startPosition = window.pageYOffset;
             const distance = targetPosition - startPosition;
-            const duration = 1500; // 1.5 seconds (slower)
+            const duration = typeof customDuration === 'number' ? customDuration : 1500;
             let start: number | null = null;
 
             function step(timestamp: number) {
@@ -98,7 +105,7 @@ const HeroSection: React.FC = () => {
 
     return (
         <section
-            onClick={handleScrollDown}
+            onClick={() => handleScrollDown()}
             className="relative w-full min-h-screen flex flex-col items-center justify-center text-center p-4 pt-10 pb-0 overflow-hidden cursor-pointer"
         >
             {/* Sparkles Container */}
@@ -119,7 +126,7 @@ const HeroSection: React.FC = () => {
                         initial={{ rotateX: 90, opacity: 0 }}
                         animate={{ rotateX: 0, opacity: 1 }}
                         exit={{ rotateX: -90, opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
                         onClick={handleTextClick}
                         className={`text-6xl md:text-9xl font-party cursor-pointer select-none drop-shadow-2xl ${isAltText ? 'text-pink-500' : 'text-yellow-400'}`}
                         style={{
