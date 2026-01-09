@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Sparkle Component
@@ -25,6 +25,16 @@ const HeroSection: React.FC = () => {
     const [isAltText, setIsAltText] = useState(false);
     const [clickCount, setClickCount] = useState(0);
     const [sparkles, setSparkles] = useState<{ id: number, x: number, y: number }[]>([]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const target = document.getElementById('info-section');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleScrollDown = () => {
         const target = document.getElementById('info-section');
@@ -111,10 +121,12 @@ const HeroSection: React.FC = () => {
                         exit={{ rotateX: -90, opacity: 0 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                         onClick={handleTextClick}
-                        className="text-6xl md:text-9xl font-party text-party-blue cursor-pointer select-none drop-shadow-2xl"
+                        className={`text-6xl md:text-9xl font-party cursor-pointer select-none drop-shadow-2xl ${isAltText ? 'text-pink-500' : 'text-yellow-400'}`}
                         style={{
-                            textShadow: '6px 6px 0px #000000',
-                            WebkitTextStroke: '2.5px #000000'
+                            textShadow: isAltText
+                                ? '0px 1px 0px #9d174d, 0px 2px 0px #9d174d, 0px 3px 0px #9d174d, 0px 4px 0px #9d174d, 0px 5px 0px #9d174d, 0px 6px 0px #9d174d, 2px 2px 15px rgba(0,0,0,0.3)'
+                                : '0px 1px 0px #b45309, 0px 2px 0px #b45309, 0px 3px 0px #b45309, 0px 4px 0px #b45309, 0px 5px 0px #b45309, 0px 6px 0px #b45309, 2px 2px 15px rgba(0,0,0,0.3)',
+                            WebkitTextStroke: isAltText ? '2px #ffffff' : '2px #ffffff'
                         }}
                     >
                         {isAltText ? "Aarya is turning Five" : "It's my Birthday"}

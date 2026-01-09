@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Heart, Utensils } from 'lucide-react';
+import { User, Heart, MapPin } from 'lucide-react';
 
 interface SectionProps {
     title: string;
     icon: React.ReactNode;
-    content: string[];
+    content: (string | React.ReactNode)[];
     color: string;
     isOpen: boolean;
     onToggle: () => void;
@@ -101,12 +101,21 @@ const InfoSection: React.FC = () => {
             color: "#C084FC"
         },
         {
-            title: "What I Love to Eat",
-            icon: <Utensils size={28} />,
+            title: "Party Venue & Time",
+            icon: <MapPin size={28} />,
             content: [
-                "Cheese Pizza",
-                "Chocolate Lava Cake.",
-                "ALL the ice cream."
+                "Date: Jan 24th",
+                "Time: 4 PM onwards",
+                <span key="loc">
+                    At: <a
+                        href="https://www.google.com/maps/search/?api=1&query=Best+Western+Plus+Portsmouth+Hotel+and+Suites+Portsmouth+Circle"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline decoration-white/50 hover:decoration-white hover:text-white transition-all font-bold"
+                    >
+                        Best Western Plus Portsmouth Hotel and Suites, Portsmouth Circle
+                    </a>
+                </span>
             ],
             color: "#FB923C"
         }

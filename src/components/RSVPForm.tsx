@@ -41,11 +41,16 @@ const RSVPForm: React.FC = () => {
     };
 
     if (status === 'success') {
+        const isAttending = formData.attending === 'yes';
         return (
-            <div className="w-full max-w-lg mx-auto bg-white rounded-3xl p-8 text-center shadow-lg border-b-8 border-party-green my-10">
-                <div className="text-6xl mb-4">🎉</div>
-                <h2 className="text-4xl font-party text-party-green mb-4">Yay! You're on the list!</h2>
-                <p className="text-xl text-gray-600">Can't wait to celebrate with you!</p>
+            <div className={`w-full max-w-lg mx-auto bg-white rounded-3xl p-8 text-center shadow-lg border-b-8 ${isAttending ? 'border-party-green' : 'border-red-400'} my-10`}>
+                <div className="text-6xl mb-4">{isAttending ? '🎉' : '😔'}</div>
+                <h2 className={`text-4xl font-party ${isAttending ? 'text-party-green' : 'text-red-500'} mb-4`}>
+                    {isAttending ? "Yay! You're on the list!" : "Ohh! You'll be missed!"}
+                </h2>
+                <p className="text-xl text-gray-600">
+                    {isAttending ? "Can't wait to celebrate with you!" : "Thanks for letting us know."}
+                </p>
             </div>
         )
     }
