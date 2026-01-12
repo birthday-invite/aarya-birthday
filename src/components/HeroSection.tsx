@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import happyBirthdayAudio from '../assets/happy_birthday.mp3';
 
 // Sparkle Component
 const Sparkle = ({ x, y }: { x: number; y: number }) => {
@@ -30,6 +31,9 @@ const HeroSection: React.FC = () => {
         // Flip text after 1 second
         const textTimer = setTimeout(() => {
             setIsAltText(true);
+            // Play audio
+            const audio = new Audio(happyBirthdayAudio);
+            audio.play().catch(error => console.log("Audio play failed:", error));
         }, 1000);
 
         // Scroll down after text flip (2.5 seconds total delay)
